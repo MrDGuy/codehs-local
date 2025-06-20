@@ -1,0 +1,14 @@
+#graphics-canvas {
+    border: 1px solid black;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #ffffff;
+}
+#console {
+    border: 1px solid black;
+    display: inline-block;
+    width: 400px;
+    height: 500px;
+    background-color: #f3eeee;
+    font-size: 20;
+}
