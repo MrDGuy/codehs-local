@@ -1,6 +1,6 @@
-#CodeHS JavaScript Graphics for Local IDE
+# CodeHS JavaScript Graphics for Local IDE
 
-##Three files: index.html, script.js, & styles.css
+## Three files: index.html, script.js, & styles.css
 ### index.html
 This file contains the basic outlay of the graphics canvas as well as the console output.
 
