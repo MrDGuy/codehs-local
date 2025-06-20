@@ -9,3 +9,12 @@ This file will contain the JavaScript code to run.  Any CodeHS javascript (excep
 
 ### styles.css
 This file contains all the stylesheet attributes to alter the look of the page.
+
+## Documentation link:
+https://codehs.github.io/chs-js-lib/docs
+
+## Debugging
+Run the Debugging through the url: http://127.0.0.1:3000/index.html
+
+## JavaScript library source for CodeHS:
+https://unpkg.com/chs-js-lib@latest/dist/chs.iife.js
