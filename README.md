@@ -16,5 +16,5 @@ https://codehs.github.io/chs-js-lib/docs
 ## Debugging
 Run the Debugging through the url: http://127.0.0.1:3000/index.html
 
-## JavaScript library source for CodeHS:
+## JavaScript library source code for CodeHS:
 https://unpkg.com/chs-js-lib@latest/dist/chs.iife.js
