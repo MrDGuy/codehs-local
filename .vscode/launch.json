@@ -17,5 +17,26 @@
             "sourceMaps": false,
             "file": "${workspaceFolder}/index.html"
         },
+
+        {
+            "name": "Codespaces Info Only (Use DevTools)",
+            "type": "msedge",
+            "request": "launch",
+            "url": "https://localhost:5500",
+            "webRoot": "${workspaceFolder}",
+            "presentation": {
+                "hidden": true
+            }
+        },
+        {
+            "name": "Launch Chrome with DevTools (Live Server)",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:5500",
+            "webRoot": "${workspaceFolder}",
+            "runtimeExecutable": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+            "runtimeArgs": ["--auto-open-devtools-for-tabs"]
+        },
+        
     ]
 }

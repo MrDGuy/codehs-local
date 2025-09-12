@@ -1,16 +1,31 @@
 <html>
-    <head>
-        <title>Program Name</title>
-        <link rel="stylesheet" href = "styles.css"> 
-        
-    </head>
+  <head>
+    <title>Program Name</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <canvas id="graphics-canvas" width="400" height="500"></canvas>
 
-    <body>
-        <canvas id="graphics-canvas" width = 400px height = 500px></canvas>
-        <script src="https://unpkg.com/chs-js-lib@latest/dist/chs.iife.js" type="text/javascript"></script>
-        <script src="script.js">
-        </script>
-        
-    </body>
+    <!-- 👇 Console area -->
+    <pre id="console"></pre>
+
+    <script src="https://unpkg.com/chs-js-lib@latest/dist/chs.iife.js"></script>
+
+    <!-- Console shim -->
+    <script>
+      (function () {
+        const box = document.getElementById("console");
+        function writeLine(msg) {
+          box.textContent += (msg == null ? "null" : msg) + "\n";
+          box.scrollTop = box.scrollHeight;
+        }
+        const origLog = console.log.bind(console);
+        console.log = (...args) => { origLog(...args); writeLine(args.join(" ")); };
+        if (typeof window.print !== "function")  window.print  = (x) => writeLine(String(x ?? ""));
+        if (typeof window.println !== "function") window.println = (x) => writeLine(String(x ?? ""));
+      })();
+    </script>
+
+    <script src="script.js"></script>
+  </body>
 </html>
-

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "checkJs": true,
+    "allowJs": true,
+    "lib": ["es6", "dom"],
+    "strictNullChecks": true,
+    "strictFunctionTypes": true
+  },
+  "include": ["src/**/*.js", "script.js", "cs.d.ts"]
+}
