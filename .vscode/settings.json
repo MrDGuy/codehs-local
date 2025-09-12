@@ -1,0 +1,4 @@
+{
+  // Hide "Live reload enabled." from the Live Server extension
+  "liveServer.settings.donotShowInfoMsg": true
+}

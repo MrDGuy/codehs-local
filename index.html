@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>Program Name</title>
@@ -6,26 +7,44 @@
   <body>
     <canvas id="graphics-canvas" width="400" height="500"></canvas>
 
-    <!-- 👇 Console area -->
-    <pre id="console"></pre>
+    <!-- Console panel -->
+    <pre id="console" aria-live="polite"></pre>
 
+    <!-- CodeHS lib -->
     <script src="https://unpkg.com/chs-js-lib@latest/dist/chs.iife.js"></script>
 
-    <!-- Console shim -->
+    <!-- Console shim (mirrors ALL output) -->
     <script>
       (function () {
         const box = document.getElementById("console");
-        function writeLine(msg) {
-          box.textContent += (msg == null ? "null" : msg) + "\n";
-          box.scrollTop = box.scrollHeight;
+        function writeLine(...args) {
+            const msg = args.join(" ");
+            if (msg.includes("Live Reload Enabled")) return; // ignore
+            box.textContent += msg + "\n";
+            box.scrollTop = box.scrollHeight;
         }
-        const origLog = console.log.bind(console);
-        console.log = (...args) => { origLog(...args); writeLine(args.join(" ")); };
-        if (typeof window.print !== "function")  window.print  = (x) => writeLine(String(x ?? ""));
-        if (typeof window.println !== "function") window.println = (x) => writeLine(String(x ?? ""));
+
+        // Mirror console.log
+        const _log = console.log.bind(console);
+        console.log = (...args) => { _log(...args); writeLine(...args); };
+
+        // Wrap CodeHS print/println if present; otherwise define them.
+        const _print   = window.print;
+        const _println = window.println;
+
+        window.print = function (...args) {
+          try { _print && _print.apply(this, args); } catch {}
+          writeLine(...args);
+        };
+
+        window.println = function (...args) {
+          try { _println && _println.apply(this, args); } catch {}
+          writeLine(...args);
+        };
       })();
     </script>
 
+    <!-- Your program -->
     <script src="script.js"></script>
   </body>
 </html>

@@ -19,6 +19,8 @@ function moveCircle() {
     }
 }
 
+println("Goodbye wrld");
+
 keyDownMethod(playAudio);
 function playAudio(e) {
     if (e.keyCode === Keyboard.letter("K")) {
