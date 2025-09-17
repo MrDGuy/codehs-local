@@ -1,4 +1,11 @@
 {
   // Hide "Live reload enabled." from the Live Server extension
-  "liveServer.settings.donotShowInfoMsg": true
+  "liveServer.settings.donotShowInfoMsg": true,
+  "javascript.disableAutomaticTypeAcquisition": true,
+  "typescript.disableAutomaticTypeAcquisition": true,
+
+  "javascript.suggest.autoImports": false,
+  "typescript.suggest.autoImports": false,
+  "javascript.preferences.includeCompletionsForModuleExports": false,
+  "typescript.preferences.includeCompletionsForModuleExports": false
 }

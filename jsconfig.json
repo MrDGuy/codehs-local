@@ -1,13 +1,19 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
     "checkJs": true,
     "allowJs": true,
-    "lib": ["es6", "dom"],
-    "strictNullChecks": true,
-    "strictFunctionTypes": true
+    "noEmit": true,
+    "target": "ES2020",
+    "lib": ["ES2020"],
+    "typeRoots": ["./src/types"],   // <— moved
+    "types": []
   },
-  "include": ["src/**/*.js", "script.js", "cs.d.ts"]
+  "typeAcquisition": { "enable": false },
+  "include": [
+    "script.js",
+    "index.html",
+    "src/**/*.js",
+    "src/types/**/*.d.ts"
+  ],
+  "exclude": ["**/node_modules/**", "**/dist/**", "**/*.min.js"]
 }

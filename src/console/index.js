@@ -160,75 +160,60 @@ class Console {
      * @private
      */
     readNumber(str, parseFn, errorMsgType, asynchronous) {
-        const DEFAULT = Symbol(); // If we get into an infinite recursion, return DEFAULT.
+        const DEFAULT = Symbol();            // If we get into an infinite recursion, return DEFAULT.
         const MAX_RECURSION_DEPTH = 100;
-        // a special indicator that th program should be exiting
-        const ABORT = Symbol('ABORT');
+        const ABORT = Symbol('ABORT');       // user cancelled
 
-        let promptString = str;
-        let parsedResult;
-        const parseInput = result => {
-            if (result === null) {
-                return ABORT;
-            }
-            parsedResult = parseFn(result);
-            if (!isNaN(parsedResult)) {
-                return parsedResult;
-            }
-            return null;
+        const parseInput = (input) => {
+            if (input === null) return ABORT;
+            const n = parseFn(input);
+            return isNaN(n) ? null : n;        // null => invalid; number => ok
         };
-        const attemptInput = (promptString, depth, asynchronous) => {
-            if (depth >= MAX_RECURSION_DEPTH) {
-                return DEFAULT;
+
+        const attemptInput = (promptString, depth, asyncFlag) => {
+            if (depth >= MAX_RECURSION_DEPTH) return DEFAULT;
+
+            const res = asyncFlag
+            ? this.readLinePrivateAsync(promptString)
+            : this.readLinePrivate(promptString);
+
+            const retry = (bad) =>
+            attemptInput(`'${bad}' was not ${errorMsgType}. Please try again.\n${str}`,
+                        depth + 1, asyncFlag);
+
+            // If Promise => async path
+            if (res && typeof res.then === "function") {
+            return res.then(val => {
+                const parsed = parseInput(val);
+                if (parsed === ABORT) return null;
+                if (parsed === null) return retry(val);
+                // success (async): echo prompt + value, then return parsed
+                this.print(str);
+                this.println(parsed);
+                return parsed;
+            });
             }
-            const result = asynchronous
-                ? this.readLinePrivateAsync(promptString)
-                : this.readLinePrivate(promptString);
-            const next = result => {
-                return attemptInput(
-                    `'${result}' was not ${errorMsgType}. Please try again.\n${str}`,
-                    depth + 1,
-                    asynchronous
-                );
-            };
-            if (Promise.resolve(result) === result) {
-                return result.then(result => {
-                    const parsedResult = parseInput(result);
-                    if (parsedResult === ABORT) {
-                        return null;
-                    }
-                    if (parsedResult === null) {
-                        return next(result);
-                    } else {
-                        return parsedResult;
-                    }
-                });
-            } else {
-                const parsedResult = parseInput(result);
-                if (parsedResult === ABORT) {
-                    return null;
-                }
-                if (parsedResult === null) {
-                    return next(result);
-                } else {
-                    return parsedResult;
-                }
-            }
+
+            // Sync path
+            const parsed = parseInput(res);
+            if (parsed === ABORT) return null;
+            if (parsed === null) return retry(res);
+            return parsed;                     // success (sync)
         };
-        const result = attemptInput(promptString, 0, asynchronous);
-        if (result === DEFAULT) {
-            return 0;
-        }
-        if (result === null) {
-            return null;
-        }
+
+        const result = attemptInput(str, 0, asynchronous);
+
+        if (result === DEFAULT) return 0;
+        if (result === null) return null;
+
+        // Echo for sync success (async already echoed in .then above)
         if (!asynchronous) {
-            // success
             this.print(str);
             this.println(result);
         }
         return result;
-    }
+        }
+
 
     /**
      * Read a line from the user.
